@@ -53,13 +53,13 @@ def inference(model, X):
 
 def save_model(model, path):
     """Serializes model to a file."""
-    with open(path, "wb") as f:
+        with open(path, "wb") as f:
         pickle.dump(model, f)
 
 
 def load_model(path):
     """Loads pickle file from 'path' and returns it."""
-    with open(path, "rb") as f:
+        with open(path, "rb") as f:
         return pickle.load(f)
 
 
