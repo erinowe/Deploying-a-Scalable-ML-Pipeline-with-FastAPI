@@ -49,7 +49,7 @@ def inference(model, X):
         Predictions from the model.
     """
     # TODO: implement the function
-    pass
+    return model.predict(X)
 
 def save_model(model, path):
     """ Serializes model to a file.
