@@ -52,18 +52,8 @@ def inference(model, X):
     return model.predict(X)
 
 def save_model(model, path):
-    """ Serializes model to a file.
-
-    Inputs
-    ------
-    model
-        Trained machine learning model or OneHotEncoder.
-    path : str
-        Path to save pickle file.
-    """
-    # TODO: implement the function
     with open(path, "wb") as f:
-    pickle.dump(model, f)
+        pickle.dump(model, f)
 
 def load_model(path):
     """ Loads pickle file from `path` and returns it."""
