@@ -26,11 +26,11 @@ class Data(BaseModel):
     hours_per_week: int = Field(..., example=40, alias="hours-per-week")
     native_country: str = Field(..., example="United-States", alias="native-country")
 
-e_path = "model/encoder.pkl" # TODO: enter the path for the saved encoder 
-encoder = load_model(e_path)
+encoder_path = "model/encoder.pkl" # TODO: enter the path for the saved encoder 
+encoder = load_model(encoder_path)
 
-m_path = "model/model.pkl"  # TODO: enter the path for the saved model 
-model = load_model(m_path)
+model_path = "model/model.pkl"  # TODO: enter the path for the saved model 
+model = load_model(model_path)
 
 # TODO: create a RESTful API using FastAPI
 app = FastAPI() # your code here
