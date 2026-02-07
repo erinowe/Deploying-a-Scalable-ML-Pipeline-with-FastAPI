@@ -1,4 +1,5 @@
 import os
+print("LOADING MAIN FROM:", os.path.abspath(__file__))
 import pandas as pd
 from fastapi import FastAPI
 from pydantic import BaseModel, Field
