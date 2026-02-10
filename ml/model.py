@@ -59,7 +59,7 @@ def save_model(model, path):
 
 def load_model(path):
     """Loads pickle file from 'path' and returns it."""
-        with open(path, "rb") as f:
+    with open(path, "rb") as f:
         return pickle.load(f)
 
 
@@ -102,11 +102,11 @@ def performance_on_categorical_slice(
     # TODO: implement the function
     X_slice, y_slice, _, _ = process_data(
         data[data[column_name] == slice_value],
-    categorical_features=categorical_features,
-    label=label,
-    training=False,
-    encoder=encoder,
-    lb=lb,
+        categorical_features=categorical_features,
+        label=label,
+        training=False,
+        encoder=encoder,
+        lb=lb,
     )
     preds = inference(model, X_slice) # your code here to get prediction on X_slice using the inference function
     precision, recall, fbeta = compute_model_metrics(y_slice, preds)
