@@ -1,9 +1,10 @@
 import os
-
+print("LOADING MAIN FROM:", os.path.abspath(__file__))
 import pandas as pd
 from fastapi import FastAPI
 from pydantic import BaseModel, Field
-
+import joblib
+import numpy as np
 from ml.data import apply_label, process_data
 from ml.model import inference, load_model
 
@@ -26,11 +27,19 @@ class Data(BaseModel):
     hours_per_week: int = Field(..., example=40, alias="hours-per-week")
     native_country: str = Field(..., example="United-States", alias="native-country")
 
+
 e_path = "model/encoder.pkl"# TODO: enter the path for the saved encoder 
 encoder = load_model(e_path)
 
 m_path = "model/model.pkl" # TODO: enter the path for the saved model 
 model = load_model(m_path)
+
+encoder_path = "model/encoder.pkl" # TODO: enter the path for the saved encoder 
+encoder = load_model(encoder_path)
+
+model_path = "model/model.pkl"  # TODO: enter the path for the saved model 
+model = load_model(model_path)
+
 
 # TODO: create a RESTful API using FastAPI
 app = FastAPI() # your code here
@@ -38,9 +47,13 @@ app = FastAPI() # your code here
 # TODO: create a GET on the root giving a welcome message
 @app.get("/")
 async def get_root():
+
     """ Say hello!"""
     return{"message":"Hello from the API!"}
     pass
+
+    return {"message": "Hello from the API!"}
+
 
 
 # TODO: create a POST on a different path that does model inference
@@ -68,8 +81,15 @@ async def post_inference(data: Data):
             data,
             categorical_features=cat_features,
             training=False,
+
             encoder=encoder,
             lb=None
     )
     _inference = inference(model,data_processed)[0] # your code here to predict the result using data_processed
+
+            encoder=encoder
+    )
+    _inference = inference(model, data_processed)[0]
+
     return {"result": apply_label(_inference)}
+
