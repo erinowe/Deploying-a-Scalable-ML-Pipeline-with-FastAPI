@@ -1,5 +1,4 @@
 import os
-
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
@@ -15,7 +14,6 @@ from ml.model import (
 # TODO: load the cencus.csv data
 project_path = "."
 data_path = os.path.join(project_path, "data", "census.csv")
-print(data_path)
 data = pd.read_csv(data_path)
 
 # TODO: split the provided data to have a train dataset and a test dataset
@@ -66,9 +64,8 @@ encoder_path = os.path.join(project_path, "model", "encoder.pkl")
 save_model(encoder, encoder_path)
 
 # load the model
-model = load_model(
-    model_path
-) 
+model = load_model(model_path)
+print(f"Loading model from {model_path}") 
 
 # TODO: use the inference function to run the model inferences on the test dataset.
 preds = inference(model, X_test)
@@ -79,21 +76,20 @@ print(f"Precision: {p:.4f} | Recall: {r:.4f} | F1: {fb:.4f}")
 
 # TODO: compute the performance on model slices using the performance_on_categorical_slice function
 # iterate through the categorical features
-open("slice_output.txt", "w").close()
-for col in cat_features:
+with open("slice_output.txt", "w") as f:
+    for col in cat_features:
+        for slice_value in sorted(test[col].unique()):
+            count = test[test[col]==slice_value].shape[0]
     # iterate through the unique values in one categorical feature
-    for slicevalue in sorted(test[col].unique()):
-        count = test[test[col] == slicevalue].shape[0]
-        p, r, fb = performance_on_categorical_slice(
-    test,
-    col,
-    slicevalue,
-    cat_features,
-    "salary",
-    encoder,
-    lb,
-    model,
-        )
-        with open("slice_output.txt", "a") as f:
-            print(f"{col}: {slicevalue}, Count: {count:,}", file=f)
-            print(f"Precision: {p:.4f} | Recall: {r:.4f} | F1: {fb:.4f}", file=f)
+            p, r, fb = performance_on_categorical_slice(
+                data = test,
+                column_name = col,
+                slice_value=slice_value,
+                categorical_features=cat_features,
+                label="salary",
+                lb=lb,
+                encoder = encoder, 
+                model = model
+            )
+            f.write(f"{col}: {slice_value},Count:{count}\n")
+            f.write(f"Precision:{p:.4f}|Recall: {r:.4f}|F1: {fb:.4f}\n\n")
